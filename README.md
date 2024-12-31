@@ -31,6 +31,7 @@ Pasamos ahora a las formas de probar el prototipo. Hemos permitido 3 posibilidad
 ## Hitos de programación logrados 
 Relacionados con los contenidos que se han impartido
 Selección con mirada, elementos de UI, escenario, eventos, sonidos
+
 ## Aspectos a destacar en la aplicación. 
 Selección con mirada, menú inicial, juego de preguntas
 ## Integración de sensores
