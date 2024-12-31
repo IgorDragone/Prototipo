@@ -7,7 +7,7 @@
 - Juan Rodríguez Suárez, alu0101477596@ull.edu.es
 
 ## Cuestiones importantes para el uso
-El prototipo ha sido desarrollado para Android. En primer lugar, vamos a explorar las configuraciones necesarias para permitir la construcción de la APK. El proyecto se ha configurado para permitir el uso del Google Cardboard SDK Plugin, por lo que se deben añadir las siguientes configuraciones:
+El prototipo ha sido desarrollado para Android. En primer lugar, vamos a explorar las configuraciones necesarias para permitir la construcción de la APK. El proyecto se ha configurado para permitir el uso del [Google Cardboard SDK Plugin](https://developers.google.com/cardboard/develop/unity/quickstart), por lo que se deben añadir las siguientes configuraciones:
 - En `File > Build Settings`, seleccionamos `Android`
 - En `Project Settings > Player > Resolution and Presentation`:
   - `Default Orientation -> Landscape Left`
