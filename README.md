@@ -7,14 +7,27 @@
 - Juan Rodríguez Suárez, alu0101477596@ull.edu.es
 
 ## Cuestiones importantes para el uso
-El prototipo ha sido desarrollado para Android. Existen 3 formas principales de probarlo:
+El prototipo ha sido desarrollado para Android. En primer lugar, vamos a explorar las configuraciones necesarias para permitir la construcción de la APK. El proyecto se ha configurado para permitir el uso del Google Cardboard SDK Plugin, por lo que se deben añadir las siguientes configuraciones:
+- En `File > Build Settings`, seleccionamos `Android`
+- En `Project Settings > Player > Resolution and Presentation`:
+  - `Default Orientation -> Landscape Left`
+  - Desactivamos `Optimized Frame Pacing`
+- En `Project Settings > Player > Other Settings`:
+  - Elegimos `OpenGLES3` en `GraphicsAPI` (Importante quitar `Vulkan`)
+  - `Minimum API Level >= Android 8.0 'Oreo' (API level 26)`
+  - `Target API Level >= API level 34`
+  - `Scripting Backend -> IL2CPP`
+  - `Target Architectures -> ARM64`
+  - `Internet Access -> Require`
+  - `Active Input Handling -> Input System Package (New)`
+  - `Application Entry Poin -> Activity`
+- En `Project Settings > XR Plug-in Management`, elegimos `Cardboard XR Plugin` en Plug-in Providers
+
+Pasamos ahora a las formas de probar el prototipo. Hemos permitido 3 posibilidades:
 - Con un móvil Android y el Google Cardboard VR Headset (Recomendado). Introducimos el móvil dentro del Cardboard y nos colocamos el aparato. De esta forma nos veremos sumergidos en el juego. 
 - Únicamente con un móvil Android. En el caso de que nos falte el Cardboard, podemos probar la aplicación solo con el móvil, aunque la experiencia será más limitada.
-- Con el ordenador. Por razones de depuración se ha añadido la posibilidad de ejecutar la aplicación directamente desde Unity. Para ello necesitaremos 2 cosas: el script `CardboardSimulator.cs` y el ajuste ` Active Input Handling = both` (Project Settings > Player > Other Settings)
-En cuanto a los ajustes específicos del proyecto, este se ha configurado para permitir el uso del Google Cardboard SDK Plugin, por lo que se deben añadir las siguientes configuraciones:
-- a
+- Con el ordenador. Por razones de depuración se ha añadido la posibilidad de ejecutar la aplicación directamente desde Unity. Para ello necesitaremos 2 cosas: el script `CardboardSimulator.cs` y el ajuste ` Active Input Handling -> Both` (Project Settings > Player > Other Settings)
 
-Se recomienda usar la versión más reciente de Unity, Unity 6, para posibles evitar conflictos.
 ## Hitos de programación logrados 
 Relacionados con los contenidos que se han impartido
 Selección con mirada, elementos de UI, escenario, eventos, sonidos
