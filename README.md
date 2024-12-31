@@ -7,9 +7,12 @@
 - Juan Rodríguez Suárez
 
 ## Cuestiones importantes para el uso
+Unity 6, ajustes de proyecto del cardboard, dispositivo VR/ordenador
 ## Hitos de programación logrados 
 Relacionados con los contenidos que se han impartido
+Selección con mirada, elementos de UI, escenario, eventos, sonidos
 ## Aspectos a destacar en la aplicación. 
+Selección con mirada, menú inicial, juego de preguntas
 ## Integración de sensores
 Especificar si se han incluido sensores de los que se han trabajado en interfaces multimodales.
 ## Gif animado de ejecución
