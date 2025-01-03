@@ -4,6 +4,7 @@ using TMPro;
 using System.Linq;
 using System;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class GameStarter : MonoBehaviour
 {
@@ -77,12 +78,37 @@ public class GameStarter : MonoBehaviour
             new Question("¿Quién fue el primer hombre en el espacio?", new string[] {"Neil Armstrong", "Yuri Gagarin", "John Glenn", "Alan Shepard"}, 'B'),
             new Question("¿Cuál es la capital de Japón?", new string[] {"Seúl", "Tokio", "Pekín", "Bangkok"}, 'B'),
             new Question("¿Cuántos colores tiene el arcoíris?", new string[] {"6", "8", "7", "9"}, 'C'),
+            new Question("¿Quién pintó la famosa obra 'La noche estrellada'?", new string[] {"Pablo Picasso", "Vincent van Gogh", "Claude Monet", "Salvador Dalí"}, 'B'),
+            new Question("¿En qué continente se encuentra el desierto del Sahara?", new string[] {"Asia", "África", "Australia", "América"}, 'B'),
+            new Question("¿Cuál es la capital de Italia?", new string[] {"Roma", "Madrid", "París", "Londres"}, 'A'),
+            new Question("¿Qué tipo de animal es la ballena?", new string[] {"Pez", "Reptil", "Mamífero", "Aves"}, 'C'),
+            new Question("¿Quién fue el autor de la teoría de la relatividad?", new string[] {"Isaac Newton", "Albert Einstein", "Galileo Galilei", "Nikola Tesla"}, 'B'),
+            new Question("¿Qué continente tiene más países?", new string[] {"África", "Asia", "Europa", "América"}, 'A'),
+            new Question("¿Cuál es el animal terrestre más grande?", new string[] {"Elefante", "Jirafa", "Rinoceronte", "Hipopótamo"}, 'A'),
+            new Question("¿Quién fue el primero en pisar la luna?", new string[] {"Yuri Gagarin", "Neil Armstrong", "Buzz Aldrin", "John Glenn"}, 'B'),
+            new Question("¿Cuál es la moneda oficial de Japón?", new string[] {"Yuan", "Won", "Yen", "Baht"}, 'C'),
+            new Question("¿Qué instrumento musical tiene cuerdas y se toca con un arco?", new string[] {"Piano", "Guitarra", "Violín", "Flauta"}, 'C'),
+            new Question("¿En qué año terminó la Segunda Guerra Mundial?", new string[] {"1945", "1940", "1950", "1939"}, 'A'),
+            new Question("¿Cuál es el continente más pequeño del mundo?", new string[] {"Europa", "Oceanía", "Antártida", "Asia"}, 'B'),
+            new Question("¿Qué planeta es conocido como el planeta rojo?", new string[] {"Júpiter", "Marte", "Venus", "Saturno"}, 'B'),
+            new Question("¿Cuál es el océano más pequeño del mundo?", new string[] {"Atlántico", "Índico", "Ártico", "Pacífico"}, 'C'),
+            new Question("¿Qué animal tiene el corazón más grande?", new string[] {"Ballena", "Elefante", "Jirafa", "Tiburón"}, 'A'),
+            new Question("¿Qué instrumento musical se toca con un arco y tiene 4 cuerdas?", new string[] {"Piano", "Violín", "Saxofón", "Guitarra"}, 'B'),
+            new Question("¿Cuál es el segundo planeta más cercano al Sol?", new string[] {"Venus", "Mercurio", "Marte", "Tierra"}, 'A'),
+            new Question("¿Quién escribió 'Harry Potter'?", new string[] {"J.R.R. Tolkien", "J.K. Rowling", "George R.R. Martin", "C.S. Lewis"}, 'B'),
+            new Question("¿En qué país se originó el sushi?", new string[] {"China", "Japón", "Corea", "Tailandia"}, 'B'),
+            new Question("¿Cuál es la ciudad más poblada del mundo?", new string[] {"Tokio", "Ciudad de México", "Nueva York", "Shanghái"}, 'A'),
+            new Question("¿Qué gas produce la fotosíntesis?", new string[] {"Oxígeno", "Dióxido de carbono", "Nitrógeno", "Metano"}, 'A'),
+            new Question("¿Quién descubrió la penicilina?", new string[] {"Marie Curie", "Alexander Fleming", "Louis Pasteur", "Charles Darwin"}, 'B'),
+            new Question("¿Cuál es el símbolo químico del oro?", new string[] {"Ag", "Au", "Pb", "Fe"}, 'B'),
+            new Question("¿Cuál es la capital de España?", new string[] {"Madrid", "Barcelona", "Valencia", "Sevilla"}, 'A'),
         };
         optionTexts = new TextMeshProUGUI[] {option1Text, option2Text, option3Text, option4Text};
 
+        VolumeManager.OnVolumeChange += ChangeVolume;
+
         correctAnswer.Stop();
         wrongAnswer.Stop();
-
     }
 
     public void StartGame()
@@ -107,11 +133,17 @@ public class GameStarter : MonoBehaviour
         currentQuestionIndex = 0;
         score = 0;
         scoreText.text = score + "/15";
+        timeLeft = 60.0f;
+        EnableWildcards();
         NextQuestion();
     }
 
     void NextQuestion() 
     {
+        if (askTheAudienceUsed)
+        {
+            audiencePanel.SetActive(false);
+        }
         correctAnswer.Stop();
         currentQuestion = questions[currentQuestionIndex];
         questionText.text = currentQuestion.questionText;
@@ -120,6 +152,7 @@ public class GameStarter : MonoBehaviour
         option3Text.text = currentQuestion.options[2];
         option4Text.text = currentQuestion.options[3];
         currentCorrectOption = currentQuestion.correctAnswer;
+        SetTimer(true);
     }
 
     public void IsAnswerA()
@@ -148,9 +181,9 @@ public class GameStarter : MonoBehaviour
 
     private IEnumerator CheckAnswer(char answer)
     {
+        SetTimer(false);
         int answerIndex = (int)answer - 65;
         optionTexts[answerIndex].text = "<color=orange>" + optionTexts[answerIndex].text + "</color>";
-
 
         yield return new WaitForSeconds(2);
         int correctIndex = (int)currentCorrectOption - 65;
@@ -175,6 +208,8 @@ public class GameStarter : MonoBehaviour
             if (currentQuestionIndex < 15)
             {   
                 //We wait 3 seconds to show the next question
+                yield return new WaitForSeconds(3);
+                timeLeft = 60.0f;
                 NextQuestion();
             }
             else
@@ -188,6 +223,179 @@ public class GameStarter : MonoBehaviour
             // End game with a loss
             OnGameLostEvent?.Invoke();
         }
-        //yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(2);
+    }
+
+    private void ChangeVolume(float volume)
+    {
+        correctAnswer.volume = volume;
+        wrongAnswer.volume = volume;
+        gameTheme.volume = volume;
+    }
+
+    // Comodines
+    private bool fiftyFiftyUsed = false;
+    private bool phoneAFriendUsed = false;
+    private bool askTheAudienceUsed = false;
+    [SerializeField] private Button fiftyFiftyButton;
+    [SerializeField] private Button phoneAFriendButton;
+    [SerializeField] private Button askTheAudienceButton;
+
+    // Comodín 50/50 (Elimina dos respuestas incorrectas)
+    public void FiftyFifty()
+    {
+        if (fiftyFiftyUsed) return; // Comprobar si ya se ha usado
+
+        fiftyFiftyUsed = true;
+        List<int> incorrectOptions = new List<int>();
+        
+        for (int i = 0; i < 4; i++)
+        {
+            if (currentCorrectOption - 65 != i)
+            {
+                incorrectOptions.Add(i);
+            }
+        }
+
+        // Eliminar dos respuestas incorrectas
+        int firstIncorrect = incorrectOptions[UnityEngine.Random.Range(0, 2)];
+        int secondIncorrect;
+
+        do
+        {
+            secondIncorrect = incorrectOptions[UnityEngine.Random.Range(0, 2)];
+        } while (secondIncorrect == firstIncorrect);
+
+        optionTexts[firstIncorrect].text = "";
+        optionTexts[secondIncorrect].text = "";
+
+        fiftyFiftyButton.interactable = false;
+    }
+
+    // Comodín Llamada a un amigo (Sugerir la respuesta correcta)
+    public void PhoneAFriend()
+    {
+        if (phoneAFriendUsed) return; // Comprobar si ya se ha usado
+
+        phoneAFriendUsed = true;
+        // Mostrar la respuesta correcta como sugerencia
+        int correctIndex = (int)currentCorrectOption - 65;
+        optionTexts[correctIndex].text = "<color=green>" + optionTexts[correctIndex].text + "</color>";
+
+        phoneAFriendButton.interactable = false;
+    }
+
+    [SerializeField] private GameObject audiencePanel; // Panel for audience results
+    [SerializeField] private Image[] percentageBars; // Bar images for each option
+    [SerializeField] private TextMeshProUGUI[] percentageTexts; // Texts to show percentages
+
+    // Comodín Ayuda del público (Mostrar distribución de respuestas del público)
+    public void AskTheAudience()
+    {
+        if (askTheAudienceUsed) return;
+        ResetBars();
+        
+        askTheAudienceUsed = true;
+        
+        int correctIndex = (int)currentCorrectOption - 65;
+        int correctPercentage = UnityEngine.Random.Range(50, 90);
+        int remainingPercentage = 100 - correctPercentage;
+        int[] percentages = new int[4];
+        
+        // Distribute remaining percentage among incorrect answers
+        for (int i = 0; i < 4; i++)
+        {
+            if (i == correctIndex)
+            {
+                percentages[i] = correctPercentage;
+            }
+            else
+            {
+                // Random distribution for remaining percentage
+                percentages[i] = remainingPercentage / 3;
+            }
+            
+            // Animate bar filling
+            StartCoroutine(AnimateBar(i, percentages[i]));
+        }
+        
+        askTheAudienceButton.interactable = false;
+    }
+
+    [SerializeField] private float animationDuration = 5.0f;
+    [SerializeField] private float maxBarHeight = 210.0f;
+    [SerializeField] private GameObject[] bars;
+
+    private IEnumerator AnimateBar(int index, float targetPercentage)
+    {
+        foreach (GameObject bar in bars)
+        {
+            bar.SetActive(true);
+        }
+
+        float startTime = Time.time;
+        float endTime = startTime + animationDuration;
+        
+        while (Time.time < endTime)
+        {
+            float t = (Time.time - startTime) / animationDuration;
+            float newHeight = Mathf.Lerp(0, maxBarHeight * targetPercentage / 100, t);
+            percentageBars[index].rectTransform.sizeDelta = new Vector2(percentageBars[index].rectTransform.sizeDelta.x, newHeight);
+            percentageTexts[index].text = Mathf.RoundToInt(newHeight / maxBarHeight * 100) + "%";
+            yield return null;
+        }
+
+        percentageBars[index].rectTransform.sizeDelta = new Vector2(percentageBars[index].rectTransform.sizeDelta.x, maxBarHeight * targetPercentage / 100);
+        percentageTexts[index].text = Mathf.RoundToInt(targetPercentage) + "%";
+    }
+
+    private void ResetBars()
+    {
+        foreach (Image bar in percentageBars)
+        {
+            bar.rectTransform.sizeDelta = new Vector2(bar.rectTransform.sizeDelta.x, 0);
+        }
+
+        foreach (TextMeshProUGUI text in percentageTexts)
+        {
+            text.text = "0%";
+        }
+
+        foreach (GameObject bar in bars)
+        {
+            bar.SetActive(false);
+        }
+    }
+
+    private void EnableWildcards()
+    {
+        fiftyFiftyUsed = false;
+        phoneAFriendUsed = false;
+        askTheAudienceUsed = false;
+        fiftyFiftyButton.interactable = true;
+        phoneAFriendButton.interactable = true;
+        askTheAudienceButton.interactable = true;
+    }
+
+    [SerializeField] TextMeshProUGUI timerText;
+    private float timeLeft = 60.0f;
+    private bool timerRunning = false;
+
+    public void SetTimer(bool value)
+    {
+        timerRunning = value;
+    }
+
+    void Update()
+    {
+        if (timerRunning)
+        {
+            timeLeft -= Time.deltaTime;
+            timerText.text = timeLeft.ToString("0");
+            if (timeLeft < 0)
+            {
+                OnGameLostEvent?.Invoke();
+            }
+        }
     }
 }
