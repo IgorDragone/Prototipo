@@ -32,6 +32,12 @@ public class Tablet : MonoBehaviour
 
     public void Play()
     {
+        // desactivamos el playAgainCanvas
+        foreach (Transform child in playAgainCanvas.transform)
+        {
+            child.gameObject.tag = "Untagged";
+        }
+        playAgainCanvas.enabled = false;
         gameTheme.Play();
         // activamos el tabletCanvas
         tabletCanvas.enabled = true;
@@ -42,12 +48,6 @@ public class Tablet : MonoBehaviour
         foreach (Transform child in tabletCanvas.transform)
         {
             child.gameObject.tag = "Interactable";
-        }
-        // desactivamos el playAgainCanvas
-        playAgainCanvas.enabled = false;
-        foreach (Transform child in playAgainCanvas.transform)
-        {
-            child.gameObject.tag = "Untagged";
         }
         // cambiamos el material de la pared
         wall.GetComponent<Renderer>().material = GazedAtMaterial;

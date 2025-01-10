@@ -10,7 +10,6 @@ public class EndGameManager : MonoBehaviour
     [SerializeField] Canvas tabletCanvas;
     [SerializeField] Canvas playAgainCanvas;
     [SerializeField] private TextMeshProUGUI playAgainText;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     void OnEnable()
     {

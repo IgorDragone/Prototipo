@@ -5,10 +5,14 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using SimpleJSON;
+using UnityEngine.Networking;
 
 public class GameStarter : MonoBehaviour
 {
     public GameObject player;
+    public int apiQuestionCount = 5;
+    private string deepLApiKey = "a0c105cf-0848-41ac-b06b-9c57a8b8d1fe:fx";
     private Vector3 startingPosition = new Vector3(100, 135, 80);
     [SerializeField] private TextMeshProUGUI questionText;
     [SerializeField] private TextMeshProUGUI option1Text;
@@ -104,6 +108,11 @@ public class GameStarter : MonoBehaviour
             new Question("¿Cuál es la capital de España?", new string[] {"Madrid", "Barcelona", "Valencia", "Sevilla"}, 'A'),
         };
         optionTexts = new TextMeshProUGUI[] {option1Text, option2Text, option3Text, option4Text};
+        
+        // Load questions from API
+        RequestAPIQuestions(TranslateAPIQuestions);
+        // Debug API questions and translations:
+        // StartCoroutine(DelayedDebug(2));
 
         VolumeManager.OnVolumeChange += ChangeVolume;
 
@@ -397,5 +406,105 @@ public class GameStarter : MonoBehaviour
                 OnGameLostEvent?.Invoke();
             }
         }
+    }
+
+    private void RequestAPIQuestions(System.Action callback)
+    {
+        string url = "https://opentdb.com/api.php?amount=" + apiQuestionCount + "&category=9&difficulty=easy&type=multiple";
+        StartCoroutine(GetRequest(url, callback)); 
+    }
+
+    private IEnumerator GetRequest(string url, System.Action callback)
+    {
+        UnityWebRequest request = new UnityWebRequest(url, "GET");
+        request.downloadHandler = new DownloadHandlerBuffer();
+
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+            Debug.Log("OpenTDB request successful");
+            JSONNode response = JSON.Parse(request.downloadHandler.text);
+            JSONArray results = response["results"].AsArray;
+            foreach(JSONNode result in results)
+            {
+                string questionText = result["question"];
+                string correctAnswer = result["correct_answer"];
+                JSONArray incorrectAnswers = result["incorrect_answers"].AsArray;
+                string[] options = new string[4];
+                System.Random random = new System.Random();
+                int correctIndex = random.Next(0, 4);
+                options[correctIndex] = correctAnswer;
+                int i = 0;
+                foreach (JSONNode incorrectAnswer in incorrectAnswers)
+                {
+                    if (i == correctIndex)
+                    {
+                        i++;
+                    }
+                    options[i] = incorrectAnswer;
+                    i++;
+                }
+                char correctOption = (char)(correctIndex + 65);
+                questions.Add(new Question(questionText, options, correctOption));
+            }
+            callback();
+
+        } else {
+            Debug.Log("OpenTDB request failed");
+        }
+    }
+
+    private void TranslateAPIQuestions()
+    {
+        string url = "https://api-free.deepl.com/v2/translate";
+        for (int i = questions.Count - apiQuestionCount; i < questions.Count; i++)
+        {
+            Question question = questions[i];
+
+            WWWForm form = new WWWForm();
+            form.AddField("auth_key", deepLApiKey);
+            form.AddField("text", question.questionText);
+            form.AddField("text", question.options[0]);
+            form.AddField("text", question.options[1]);
+            form.AddField("text", question.options[2]);
+            form.AddField("text", question.options[3]);
+            form.AddField("target_lang", "es");
+            form.AddField("source_lang", "en");
+
+            StartCoroutine(PostRequest(url, form, i));
+        }
+    }
+
+    private IEnumerator PostRequest(string url, WWWForm form, int index)
+    {
+        UnityWebRequest request = UnityWebRequest.Post(url, form);
+        request.downloadHandler = new DownloadHandlerBuffer();
+
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+            Debug.Log("DeepL request successful");
+            JSONNode response = JSON.Parse(request.downloadHandler.text);
+            JSONArray translations = response["translations"].AsArray;
+            questions[index].questionText = translations[0]["text"];
+            questions[index].options[0] = translations[1]["text"];
+            questions[index].options[1] = translations[2]["text"];
+            questions[index].options[2] = translations[3]["text"];
+            questions[index].options[3] = translations[4]["text"];
+        } else {
+            Debug.Log("DeepL request failed");
+        }
+    }
+
+    private IEnumerator DelayedDebug(int seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        Debug.Log(questions[questions.Count - 1].questionText);
+        Debug.Log(questions[questions.Count - 1].options[0]);
+        Debug.Log(questions[questions.Count - 1].options[1]);
+        Debug.Log(questions[questions.Count - 1].options[2]);
+        Debug.Log(questions[questions.Count - 1].options[3]);
     }
 }
