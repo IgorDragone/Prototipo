@@ -38,4 +38,15 @@ Selección con mirada, menú inicial, juego de preguntas
 Especificar si se han incluido sensores de los que se han trabajado en interfaces multimodales.
 ## Gif animado de ejecución
 ## Acta de los acuerdos del grupo respecto al trabajo en equipo
-Reparto de tareas, tareas desarrolladas individualmente, tareas desarrolladas en grupo, etc.
+Se ha ido desarrollando el prototipo de forma incremental. La metodología seguida es la siguiente:
+1. En grupo, se elige la idea del prototipo y el orden en el que trabajará cada integrante del grupo
+2. El primer integrante desarrolla el esqueleto de la aplicación. Una vez acabado, se pone en contacto con el segundo y juntos discuten que puede añadir este último. Una vez llegados a una conclusión, la antorcha pasa del primer integrante al segundo, quien es ahora el responsable de añadir nuevas funcionalidades a la aplicación. Se repite este proceso hasta llegar al último integrante del grupo. Una vez finalizada esta sesión, todo el equipo revisa el trabajo realizado y, una vez satisfecho, da el prototipo como terminado.
+
+Entre las diferentes funcionalidades añadidas de forma incremental, destacan (en orden):
+- Creación del esqueleto inicial: esqueleto, público, tablet, pantalla
+- Creación de la primera mecánica de juego: 15 preguntas de 4 opciones, se debe acertar la correcta para pasar a la siguiente
+- Adición de sonidos en el juego: música de fondo, etc.
+- Aparición de 3 comodines
+- Creación de un menú inicial
+- Extensión de la base de datos de preguntas a través de uns API
+- Nueva mecánica de victoria
