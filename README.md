@@ -29,8 +29,43 @@ Pasamos ahora a las formas de probar el prototipo. Hemos permitido 3 posibilidad
 - Con el ordenador. Por razones de depuración se ha añadido la posibilidad de ejecutar la aplicación directamente desde Unity. Para ello necesitaremos 2 cosas: el script `CardboardSimulator.cs` y el ajuste ` Active Input Handling -> Both` (Project Settings > Player > Other Settings)
 
 ## Hitos de programación logrados 
-Relacionados con los contenidos que se han impartido
-Selección con mirada, elementos de UI, escenario, eventos, sonidos
+## 1. Sistema de Gestión de Preguntas
+- Base de preguntas local en español.
+- Integración con la API OpenTDB para obtener preguntas adicionales.
+- Traducción automática mediante la API de DeepL.
+- Aleatorización de preguntas y respuestas.
+- Manejo de 15 preguntas por partida.
+
+## 2. Sistema de Interacción VR
+- Control por mirada (gaze) con temporizador visual.
+- Pointer/cursor que sigue la mirada del usuario.
+- Detección de colisiones con elementos interactivos.
+
+## 3. Sistema de Comodines
+- Comodín 50:50: elimina dos respuestas incorrectas.
+- "Llamada a un amigo": resalta la respuesta correcta.
+- "Ayuda del público": animación de barras de porcentaje.
+- Uso único por comodín por partida.
+
+## 4. Gestión de UI y Estados del Juego
+- Sistema de canvas múltiples para diferentes estados (menú, juego, fin).
+- Contador de puntuación y temporizador por pregunta.
+- Transiciones entre preguntas y manejo de estados de victoria/derrota.
+
+## 5. Sistema de Audio
+- Efectos de sonido para respuestas correctas/incorrectas.
+- Música de fondo y control de volumen con persistencia.
+
+## 6. Arquitectura y Patrones
+- Uso del patrón Singleton para managers clave.
+- Sistema de eventos para comunicación entre componentes.
+- Managers dedicados (GazeManager, GameStarter, EndGameManager, etc.).
+- Interfaces genéricas para elementos interactivos.
+
+## 7. Características de Accesibilidad y UX
+- Retroalimentación visual en interacciones.
+- Indicadores visuales en la pared para estados del juego.
+- Menú de configuración de volumen y sistema de reinicio de partida.
 
 ## Aspectos a destacar en la aplicación. 
 Selección con mirada, menú inicial, juego de preguntas
