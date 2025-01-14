@@ -68,9 +68,13 @@ Pasamos ahora a las formas de probar el prototipo. Hemos permitido 3 posibilidad
 - Menú de configuración de volumen y sistema de reinicio de partida.
 
 ## Aspectos a destacar en la aplicación. 
-Selección con mirada, menú inicial, juego de preguntas
+- Miles de preguntas online con traducción automática.
+- Juego muy ligero computacionalmente.
+- Experiencia guiada y muy intuitiva.
+- Menú inicial con diferentes opciones como introducción.
+
 ## Integración de sensores
-Especificar si se han incluido sensores de los que se han trabajado en interfaces multimodales.
+- Principalmente el giroscopio para mover la cámara y selecionnar los botones y distintas opciones.
 ## Gif animado de ejecución
 ## Acta de los acuerdos del grupo respecto al trabajo en equipo
 Se ha ido desarrollando el prototipo de forma incremental. La metodología seguida es la siguiente:
