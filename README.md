@@ -67,6 +67,19 @@ Pasamos ahora a las formas de probar el prototipo. Hemos permitido 3 posibilidad
 - Indicadores visuales en la pared para estados del juego.
 - Menú de configuración de volumen y sistema de reinicio de partida.
 
+## Confort y buena experiencia de usuario
+En el desarrollo de nuestra aplicación, hemos puesto un enfoque especial en garantizar que cada interacción sea intuitiva, eficiente y agradable. Sabemos que una buena experiencia de usuario no solo mejora la satisfacción, sino que también fomenta el compromiso y facilita el logro de los objetivos de los usuarios.
+
+Para lograr esto, hemos diseñado una plataforma que combina funcionalidad y comodidad, centrándonos en los detalles que realmente importan. Desde la fluidez en la navegación hasta la claridad en las interfaces, cada elemento ha sido creado pensando en cómo ofrecer una experiencia óptima.
+
+En este documento, destacaremos los puntos clave que hacen de nuestra aplicación una herramienta confiable y placentera para los usuarios.
+-  Implementar interfaces 3D
+-  Zonas específicas para la detección de gestos
+-   Interfaz intuitiva
+-   Propiedades adecuadas para los elementos interactivos
+-   Evitar que la cámara se mueva o que la interacción comience sin una acción explícita del usuario.
+
+
 ## Aspectos a destacar en la aplicación. 
 - Miles de preguntas online y locales con traducción automática.
 - Juego muy ligero computacionalmente.
